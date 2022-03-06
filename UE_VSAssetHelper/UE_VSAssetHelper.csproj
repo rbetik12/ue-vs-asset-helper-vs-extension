@@ -46,10 +46,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UE_VSAssetHelperPackage.cs" />
-    <Compile Include="UE_VSAssetHelperWindow.cs" />
-    <Compile Include="UE_VSAssetHelperWindowCommand.cs" />
-    <Compile Include="UE_VSAssetHelperWindowControl.xaml.cs">
+    <Compile Include="Package\UE_VSAssetHelperPackage.cs" />
+    <Compile Include="View\UE_VSAssetHelperWindow.cs" />
+    <Compile Include="View\UE_VSAssetHelperWindowCommand.cs" />
+    <Compile Include="View\UE_VSAssetHelperWindowControl.xaml.cs">
       <DependentUpon>UE_VSAssetHelperWindowControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -79,7 +79,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UE_VSAssetHelperWindowControl.xaml">
+    <Page Include="View\UE_VSAssetHelperWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
