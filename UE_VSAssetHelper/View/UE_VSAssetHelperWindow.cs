@@ -8,10 +8,10 @@ namespace UE_VSAssetHelper
     [Guid("fa170f54-c8e4-4c39-bca8-7d90f2e23d99")]
     public class UE_VSAssetHelperWindow : ToolWindowPane
     {
-        private DTE dte = null;
-
-        public static String className = null;
-        public static System.Windows.Controls.TextBlock infoBlock = null;
+        private DTE dte;
+        public string selectedClassName { get; private set; }
+        public static UE_VSAssetHelperWindow instance { get; private set; }
+        
         public UE_VSAssetHelperWindow() : base(null)
         {
             this.Caption = "UE_VSAssetHelperWindow";
@@ -22,18 +22,19 @@ namespace UE_VSAssetHelper
             dte.Events.WindowEvents.WindowActivated += OnWindowActivated;
         }
 
+        public override void OnToolWindowCreated()
+        {
+            base.OnToolWindowCreated();
+            instance = this;
+        }
+
         private void OnWindowActivated(Window gotFocus, Window lostFocus)
         {
             var content = this.Content as UE_VSAssetHelperWindowControl;
             var windowGrid = content.Content as System.Windows.Controls.Grid;
             var stackPanel = windowGrid.Children[0] as System.Windows.Controls.StackPanel;
             var textBlock = stackPanel.Children[0] as System.Windows.Controls.TextBlock;
-            var infoTextBlock = stackPanel.Children[2] as System.Windows.Controls.TextBlock;
-
-            if (infoBlock == null)
-            {
-                infoBlock = infoTextBlock;
-            }
+            //var infoTextBlock = stackPanel.Children[2] as System.Windows.Controls.TextBlock;
 
             if (dte.ActiveDocument != null)
             {
@@ -49,8 +50,9 @@ namespace UE_VSAssetHelper
                 //{
                 //    children += elem.Name + Environment.NewLine;
                 //}           
-                className = splittedName[splittedName.Length - 1];
+                var className = splittedName[splittedName.Length - 1];
                 className = className.Remove(className.IndexOf("."), className.Length - className.IndexOf("."));
+                selectedClassName = className;
             }
         }
     }
