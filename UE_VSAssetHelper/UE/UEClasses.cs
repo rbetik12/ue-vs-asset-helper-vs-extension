@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UE_VSAssetHelper.UE
 {
@@ -32,5 +33,6 @@ namespace UE_VSAssetHelper.UE
         public String ClassName;
         public String SuperClassName;
         public String PackageName;
+        public Dictionary<String, String> Properties;
     }
 }

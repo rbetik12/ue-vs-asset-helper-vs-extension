@@ -11,10 +11,14 @@
              Name="MyToolWindow">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Margin="10" HorizontalAlignment="Center">UE_VSAssetHelperWindow</TextBlock>
-            <Button Content="Click me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
-            <TextBlock Margin="10" HorizontalAlignment="Center"></TextBlock>
-            <Button Content="Click me2!" Click="button2_Click" Width="120" Height="80" Name="button2"/>
+            <TextBlock x:Name="Filename" Margin="10" HorizontalAlignment="Center">UE_VSAssetHelperWindow</TextBlock>
+            <StackPanel Orientation="Horizontal" Width="200">
+                <Button Content="Open in editor" Click="OpenInEditor" x:Name="button1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Content="Get asset properties" Click="GetAssetProperties" x:Name="button2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <ScrollViewer>
+                <TextBlock Margin="10" HorizontalAlignment="Center" Name="Props"></TextBlock>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>
