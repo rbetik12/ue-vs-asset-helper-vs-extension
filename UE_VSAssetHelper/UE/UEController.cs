@@ -1,5 +1,7 @@
 ﻿using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace UE_VSAssetHelper.UE
 {
@@ -22,7 +24,26 @@ namespace UE_VSAssetHelper.UE
         { 
             if (!isConnected)
             {
-                ueClient.Connect(IPAddress.Parse("127.0.0.1"), 8080);
+                try
+                {
+                    ueClient.Connect(IPAddress.Parse("127.0.0.1"), 8080);
+                }
+                catch (SocketException exception)
+                {
+                    var result = MessageBox.Show("Can't connect to Unreal Engine plugin. Check if editor with enabled plugin is running.",
+                                    "Connection error",
+                                     MessageBoxButtons.RetryCancel,
+                                     MessageBoxIcon.Error);
+
+                    if (result == DialogResult.Retry)
+                    {
+                        throw new UEPluginNotAvailableException();
+                    }
+                    else
+                    {
+                        throw new UEPluginConnectionClosedException();
+                    }
+                }
                 isConnected = true;
             }
 

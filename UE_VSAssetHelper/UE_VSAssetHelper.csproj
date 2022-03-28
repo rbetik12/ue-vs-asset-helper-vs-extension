@@ -50,6 +50,7 @@
     <Compile Include="UE\UEClasses.cs" />
     <Compile Include="UE\UEClient.cs" />
     <Compile Include="UE\UEController.cs" />
+    <Compile Include="UE\UEExceptions.cs" />
     <Compile Include="View\UE_VSAssetHelperWindow.cs" />
     <Compile Include="View\UE_VSAssetHelperWindowCommand.cs" />
     <Compile Include="View\UE_VSAssetHelperWindowControl.xaml.cs">

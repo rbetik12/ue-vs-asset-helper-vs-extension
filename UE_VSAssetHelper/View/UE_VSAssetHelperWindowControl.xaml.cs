@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using UE_VSAssetHelper.UE;
 using EnvDTE;
 using Window = EnvDTE.Window;
+using System.Net.Sockets;
 
 namespace UE_VSAssetHelper
 {
@@ -83,20 +84,44 @@ namespace UE_VSAssetHelper
 
         private void OpenInEditor(object sender, RoutedEventArgs e)
         {
-            ueController.SendIDERequestAsync(RequestType.OPEN, selectedClassName);
-            ueController.ReceiveIDEResponse();
+            try
+            {
+                ueController.SendIDERequestAsync(RequestType.OPEN, selectedClassName);
+                ueController.ReceiveIDEResponse();
+            }
+            catch (UEPluginNotAvailableException ex)
+            {
+                OpenInEditor(sender, e);
+                return;
+            }
+            catch (UEPluginConnectionClosedException ex) 
+            {
+                return;
+            }
         }
 
         private void GetAssetProperties(object sender, RoutedEventArgs e) 
         {
-            ueController.SendIDERequestAsync(RequestType.GET_INFO, selectedClassName);
-            var resp = ueController.ReceiveIDEResponse();
-            if (resp.status != ResponseStatus.OK)
+            try
+            {
+                ueController.SendIDERequestAsync(RequestType.GET_INFO, selectedClassName);
+                var resp = ueController.ReceiveIDEResponse();
+                if (resp.status != ResponseStatus.OK)
+                {
+                    return;
+                }
+                var data = JsonConvert.DeserializeObject<BlueprintClassObject>(resp.answerString);
+                assetInfoTextBlock.Text = GetAssetInfoText(data);
+            }
+            catch (UEPluginNotAvailableException ex)
+            {
+                GetAssetProperties(sender, e);
+                return;
+            }
+            catch (UEPluginConnectionClosedException ex)
             {
                 return;
             }
-            var data = JsonConvert.DeserializeObject<BlueprintClassObject>(resp.answerString);
-            assetInfoTextBlock.Text = GetAssetInfoText(data);
         }
     }
 }
