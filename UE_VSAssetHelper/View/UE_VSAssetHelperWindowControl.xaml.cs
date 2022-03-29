@@ -65,6 +65,8 @@ namespace UE_VSAssetHelper
                     }
                 }
                 Console.WriteLine(children);
+
+                assetInfoTextBlock.Text = "";
             }
         }
 
@@ -87,7 +89,11 @@ namespace UE_VSAssetHelper
             try
             {
                 ueController.SendIDERequestAsync(RequestType.OPEN, selectedClassName);
-                ueController.ReceiveIDEResponse();
+                var resp = ueController.ReceiveIDEResponse();
+                if (resp.status != ResponseStatus.OK)
+                {
+                    assetInfoTextBlock.Text = "No blueprint associated with that class was found!";
+                }
             }
             catch (UEPluginNotAvailableException ex)
             {
@@ -108,6 +114,7 @@ namespace UE_VSAssetHelper
                 var resp = ueController.ReceiveIDEResponse();
                 if (resp.status != ResponseStatus.OK)
                 {
+                    assetInfoTextBlock.Text = "No blueprint associated with that class was found!";
                     return;
                 }
                 var data = JsonConvert.DeserializeObject<BlueprintClassObject>(resp.answerString);
